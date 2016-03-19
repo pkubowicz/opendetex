@@ -6,7 +6,7 @@ detex \- a filter to strip \fITeX\fP commands from a .tex file.
 [ \fB\-clnstw\fR ] [ \fB\-e\fI environment-list\fR ] [ \fIfilename\fR[.tex] ... ]
 .SH DESCRIPTION
 .I Detex
-(Version 2.8.2)
+(Version 2.8.3)
 reads each file in sequence, removes all comments and
 .I TeX
 control sequences
