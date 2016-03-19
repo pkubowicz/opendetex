@@ -129,7 +129,7 @@ void	OS2UsageExit(void);
 char	*rgsbEnvIgnore[MAXENVS];	/* list of environments ignored */
 char	*rgsbIncList[MAXINCLIST];	/* list of includeonly files */
 char	*rgsbInputPaths[MAXINPUTPATHS];	/* list of input paths in order */
-char	sbCurrentEnv[CCHMAXENV];	/* current environment being ignored */
+char	sbCurrentIgnoredEnv[CCHMAXENV];	/* current environment being ignored */
 char	*sbProgName;			/* name we were invoked with */
 #ifndef NOFILE /* might be defined in <sys/param.h> */
 #define NOFILE 256
@@ -640,12 +640,6 @@ void
 SetEnvIgnore(const char *sbEnvList)
 {
 	char *sb;
-	/*int sbLen;
-
-	sbLen = strlen(sbEnvList);
-	sb = SafeMalloc(sbLen + 1, "malloc for SetEnvIgnore failed");
-	strncpy(sb, sbEnvList, sbLen);
-	sb[sbLen+1] = '\0';*/
 	sb = SafeMalloc(strlen(sbEnvList) + 1, "malloc for SetEnvIgnore failed");
 	(void) strcpy(sb, sbEnvList);
 
@@ -657,7 +651,7 @@ SetEnvIgnore(const char *sbEnvList)
 
 /******
 ** BeginEnv -- checks to see if sbEnv is in the list rgsbEnvIgnore.  If it
-**	is, sbCurrentEnv is set to sbEnv.
+**	is, sbCurrentIgnoredEnv is set to sbEnv.
 ******/
 
 int
@@ -668,7 +662,7 @@ BeginEnv(const char *sbEnv)
 	if (!fLatex) return(0);
 	for (i = 0; i < csbEnvIgnore; ++i)
 	    if (strcmp(sbEnv, rgsbEnvIgnore[i]) == 0) {
-			(void)strcpy(sbCurrentEnv, sbEnv);
+			(void)strcpy(sbCurrentIgnoredEnv, sbEnv);
 			return(1);
 	    }
 	return(0);
@@ -682,7 +676,7 @@ int
 EndEnv(const char *sbEnv)
 {
 	if (!fLatex) return(0);
-	if (strcmp(sbEnv, sbCurrentEnv) == 0)
+	if (strcmp(sbEnv, sbCurrentIgnoredEnv) == 0)
 	    return(1);
 	return(0);
 }

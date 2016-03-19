@@ -63,7 +63,7 @@
 
 #define	MAXINPUTPATHS	10
 
-#define	DEFAULTENV	"algorithm,align,array,bmatrix,displaymath,eqnarray,equation,floatfig,floating,longtable,picture,pmatrix,psfrags,pspicture,smallmatrix,smallpmatrix,tabular,verbatim,vmatrix,wrapfigure"
+#define	DEFAULTENV	"algorithm,align,array,bmatrix,displaymath,eqnarray,equation,floatfig,floating,longtable,picture,pmatrix,psfrags,pspicture,smallmatrix,smallpmatrix,tabular,tikzpicture,verbatim,vmatrix,wrapfigure"
 #define	CHENVSEP	','
 #define	MAXENVS		25
 #define	CCHMAXENV	100

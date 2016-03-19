@@ -51,6 +51,10 @@ This is minipage.
 	\centering
 	\includegraphics[scale=0.333]{img/overview}
 	\caption{This is figure.}
+	\begin{tikzpicture}[scale=0.9]
+	\draw (2,1) node[right]{\tiny$(1,a)$}  -- (2,-1) node[right]{\tiny$(1,a')$};
+	\filldraw[fill=black] (2,1) circle (1pt);
+	\end{tikzpicture}
 \end{figure}
 
 \begin{table}[H]
