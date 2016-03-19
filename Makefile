@@ -140,7 +140,7 @@ clean:
 print:	${HDR} ${SRC}
 	${LPR} Makefile ${HDR} ${SRC}
 
-testing: all
+test: all
 	./test.pl
 
 run: delatex
