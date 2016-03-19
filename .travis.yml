@@ -5,6 +5,7 @@ compiler:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y flex valgrind
+before_script:
   - flex --version
   - valgrind --version
 script: make && ./test.pl --valgrind
