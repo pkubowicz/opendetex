@@ -41,7 +41,7 @@ sub execute_cmd {
 sub get_cmd {
 	my ($cmd) = @_;
 	if ($ARGV[0] && $ARGV[0] eq '--valgrind') {
-		$cmd = "valgrind --leak-check=yes --leak-check=full --show-leak-kinds=all --error-exitcode=1 $cmd";
+		$cmd = "valgrind --leak-check=yes --leak-check=full --error-exitcode=1 $cmd";
 	}
 	return $cmd;
 }
