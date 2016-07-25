@@ -10,12 +10,13 @@ print "Tests ok\n";
 
 sub assert_produces_correct_output {
 	print "Checking correct output is produced...\n";
-	execute_cmd("./delatex test/in > /tmp/testDelatex.txt");
-	my $diffResult = `diff test/correct.txt /tmp/testDelatex.txt`;
+	chdir 'test';
+	execute_cmd("../delatex in > /tmp/testDelatex.txt");
+	my $diffResult = `diff correct.txt /tmp/testDelatex.txt`;
 
 	if ($diffResult ne '') {
 		print "Test failed:\n";
-		my $compared = "test/correct.txt /tmp/testDelatex.txt";
+		my $compared = "correct.txt /tmp/testDelatex.txt";
 		if (`which kdiff3`) {
 			system("kdiff3 $compared");
 		} elsif (`which vimdiff`) {
@@ -25,6 +26,7 @@ sub assert_produces_correct_output {
 		}
 		exit(11);
 	}
+	chdir '..'
 }
 
 sub run_for_wrong_input {
