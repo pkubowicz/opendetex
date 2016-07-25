@@ -310,6 +310,9 @@ Z	\*?
 <Normal>"\\pagestyle"				{KILLARGS(1); IGNORE;}
 <Normal>"\\ref"					{CITE(1); IGNORE;}
 <Normal>"\\setcounter"				{KILLARGS(2); IGNORE;}
+<Normal>"\\addtocounter"			{KILLARGS(2); IGNORE;}
+<Normal>"\\newcounter"				{ KILLARGS(1); }
+<Normal>"\\stepcounter"			{ KILLARGS(2); }
 
 <Normal>"\\fontspec"			{KILLARGS(1);}
 
