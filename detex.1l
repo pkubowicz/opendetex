@@ -71,6 +71,12 @@ and magic characters like `{' when recognizing things like
 .I LaTeX
 environments.
 .PP
+The
+.B \-r
+option tries to naively replace $..$, $$..$$, \(..\) and \[..\]
+with nouns and verbs (in particular, "noun" and "verbs")
+in a way that keeps sentences readable.
+.PP
 If the
 .B \-w
 flag is given, the output is a word list, one `word' (string of two or more

@@ -977,15 +977,15 @@ ErrorExit(const char *sb1)
 void
 UsageExit(void)
 {
-	(void)printf("\n%s [ -clnstw ] [ -e environment-list ] [ filename[.tex] ... ]\n",
+	(void)printf("\n%s [ -clnrstw ] [ -e environment-list ] [ filename[.tex] ... ]\n",
 		sbProgName);
 	puts("  -c  echo LaTeX \\cite, \\ref, and \\pageref values\n  \
 -e  <env-list> list of LaTeX environments to ignore\n  \
 -l  force latex mode\n  \
 -n  do not follow \\input and \\include\n  \
+-r  replace math with \"noun\"\n  \
 -s  replace control sequences with space\n  \
 -t  force tex mode\n  \
--w  word only output\n \
--r  replace math with \"noun\"");
+-w  word only output");
 	exit(0);
 }
