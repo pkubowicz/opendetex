@@ -177,7 +177,7 @@ VU	{U}|ex
 VD	{S}(({N}{S}{VU})|(\\{W})){S}
 VG	{VD}(plus{VD})?(minus{VD})?
 Z	\*?
-VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\mapsto|\\subset|\\sim
+VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subset|\\sim|\neq
 
 %Start Define Display IncludeOnly Input Math Normal Control
 %Start LaBegin LaDisplay LaEnd LaEnv LaFormula LaInclude
