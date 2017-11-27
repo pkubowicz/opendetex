@@ -180,7 +180,7 @@ Z	\*?
 VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subset|\\sim|\neq
 
 %Start Define Display IncludeOnly Input Math Normal Control
-%Start LaBegin LaDisplay LaEnd LaEnv LaFormula LaInclude
+%Start LaBegin LaDisplay LaEnd LaEnv LaFormula LaInclude LaSubfile
 %Start LaMacro LaOptArg LaMacro2 LaOptArg2 LaVerbatim 
 %start LaBreak LaPicture
 
@@ -385,6 +385,13 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subset|\\sim|\neq
 						}
 <IncludeOnly>"\n"+				NEWLINE;
 <IncludeOnly>.					;
+
+<Normal>"\\subfile"	/* process files */	{LaBEGIN LaSubfile; IGNORE;}
+<LaSubfile>[^{ \t\n}]+				{   IncludeFile(yytext);
+						    BEGIN Normal;
+						}
+<LaSubfile>"\n"+					NEWLINE;
+<LaSubfile>.					;
 
 <Normal>"\\input"				{BEGIN Input; IGNORE;}
 <Input>[^{ \t\n}]+				{   InputFile(yytext);
