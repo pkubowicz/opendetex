@@ -1,6 +1,10 @@
 #!/usr/bin/perl -w
 
-assert_produces_correct_output();
+assert_produces_correct_output('in.tex', 'correct.txt');
+assert_produces_correct_output('in.tex', 'correct.txt', '-l');
+assert_produces_correct_output('noinclude.tex', 'noinclude-correct.txt', '-n');
+assert_produces_correct_output('words.tex', 'words-correct.txt', '-w');
+assert_produces_correct_output('words.tex', 'words-correct.txt', '-w -l');
 run_for_wrong_input("non-existent-file");
 run_for_wrong_input("non-existent-file.tex");
 run_for_wrong_input("non-existent-file.txt");
@@ -9,14 +13,17 @@ run_for_wrong_input("test/unterminated.txt");
 print "Tests ok\n";
 
 sub assert_produces_correct_output {
-	print "Checking correct output is produced...\n";
+	my ($input, $correct, $options) = @_;
+	$options ||= '';
+	my $options_desc = $options ? " ($options)" : '';
+	print "Checking correct output is produced for $input->$correct$options_desc...\n";
 	chdir 'test';
-	execute_cmd("../delatex in > /tmp/testDelatex.txt");
-	my $diffResult = `diff correct.txt /tmp/testDelatex.txt`;
+	execute_cmd("../delatex $options $input > /tmp/testDelatex.txt");
+	my $compared = "$correct /tmp/testDelatex.txt";
+	my $diffResult = `diff $compared 2>&1`;
 
 	if ($diffResult ne '') {
 		print "Test failed:\n";
-		my $compared = "correct.txt /tmp/testDelatex.txt";
 		if (`which kdiff3`) {
 			system("kdiff3 $compared");
 		} elsif (`which vimdiff`) {
