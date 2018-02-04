@@ -90,6 +90,8 @@
 
 #define	LaBEGIN		if (fLatex) BEGIN
 #define	IGNORE		if (fSpace && !fWord) putchar(' ')
+#define NOUN		if (fSpace && !fWord && !fReplace) putchar(' '); else {if (fReplace) printf("noun");}
+#define VERBNOUN		if (fReplace) printf(" verbs noun"); /* puts a verb and a noun to make grammar checking work */
 #define	SPACE		if (!fWord) putchar(' ')
 #define	NEWLINE		if (!fWord) putchar('\n')
 #define	LATEX		fLatex=!fForcetex
@@ -148,6 +150,7 @@ int	fCite = 0;			/* flag to echo \cite and \ref args */
 int	fSpace = 0;			/* flag to replace \cs with space */
 int	fForcetex = 0;			/* flag to inhibit latex mode */
 int fShowPictures = 0;  /* flag to show picture names */
+int fReplace = 0;  /* flag to replace envirnments with "noun" */
 
 int currBracesLevel = 0;
 int footnoteLevel = -100;
@@ -174,9 +177,10 @@ VU	{U}|ex
 VD	{S}(({N}{S}{VU})|(\\{W})){S}
 VG	{VD}(plus{VD})?(minus{VD})?
 Z	\*?
+VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\\neq|\\mapsto
 
 %Start Define Display IncludeOnly Input Math Normal Control
-%Start LaBegin LaDisplay LaEnd LaEnv LaFormula LaInclude
+%Start LaBegin LaDisplay LaEnd LaEnv LaFormula LaInclude LaSubfile
 %Start LaMacro LaOptArg LaMacro2 LaOptArg2 LaVerbatim 
 %start LaBreak LaPicture
 
@@ -341,25 +345,29 @@ Z	\*?
 <Define>"\n"					NEWLINE;
 <Define>.					;
 
-<Normal>"\\("		/* formula mode */	{LaBEGIN LaFormula; IGNORE;}
+<Normal>"\\("		/* formula mode */	{LaBEGIN LaFormula; NOUN;}
 <LaFormula>"\\)"				BEGIN Normal;
 <LaFormula>"\n"					NEWLINE;
+<LaFormula>{VERBSYMBOL}			VERBNOUN;
 <LaFormula>.					;
 
-<Normal>"\\["		/* display mode */	{LaBEGIN LaDisplay; IGNORE;}
+<Normal>"\\["		/* display mode */	{LaBEGIN LaDisplay; NOUN;}
 <LaDisplay>"\\]"				BEGIN Normal;
 <LaDisplay>"\n"					NEWLINE;
+<LaDisplay>{VERBSYMBOL}			VERBNOUN;
 <LaDisplay>.					;
 
-<Normal>"$$"		/* display mode */	{BEGIN Display; IGNORE;}
+<Normal>"$$"		/* display mode */	{BEGIN Display; NOUN;}
 <Display>"$$"					BEGIN Normal;
 <Display>"\n"					NEWLINE;
+<Display>{VERBSYMBOL}			VERBNOUN;
 <Display>.					;
 
-<Normal>"$"		/* math mode */		{BEGIN Math; IGNORE;}
+<Normal>"$"		/* math mode */		{BEGIN Math; NOUN;}
 <Math>"$"					BEGIN Normal;
 <Math>"\n"					NEWLINE;
 <Math>"\\$"					;
+<Math>{VERBSYMBOL}			VERBNOUN;
 <Math>.						;
 
 <Normal>"\\include"	/* process files */	{LaBEGIN LaInclude; IGNORE;}
@@ -377,6 +385,13 @@ Z	\*?
 						}
 <IncludeOnly>"\n"+				NEWLINE;
 <IncludeOnly>.					;
+
+<Normal>"\\subfile"	/* process files */	{LaBEGIN LaSubfile; IGNORE;}
+<LaSubfile>[^{ \t\n}]+				{   IncludeFile(yytext);
+						    BEGIN Normal;
+						}
+<LaSubfile>"\n"+					NEWLINE;
+<LaSubfile>.					;
 
 <Normal>"\\input"				{BEGIN Input; IGNORE;}
 <Input>[^{ \t\n}]+				{   InputFile(yytext);
@@ -546,6 +561,9 @@ main(int cArgs, char *rgsbArgs[])
 			break;
 		    case CHWORDOPT:
 			fWord = 1;
+			break;
+			case CHREPLACE:
+			fReplace = 1;
 			break;
 		    default:
 			sbBadOpt[0] = *pch;
@@ -966,12 +984,13 @@ ErrorExit(const char *sb1)
 void
 UsageExit(void)
 {
-	(void)printf("\n%s [ -clnstw ] [ -e environment-list ] [ filename[.tex] ... ]\n",
+	(void)printf("\n%s [ -clnrstw ] [ -e environment-list ] [ filename[.tex] ... ]\n",
 		sbProgName);
 	puts("  -c  echo LaTeX \\cite, \\ref, and \\pageref values\n  \
 -e  <env-list> list of LaTeX environments to ignore\n  \
 -l  force latex mode\n  \
--n  do not follow \\input and \\include\n  \
+-n  do not follow \\input, \\include and \\subfile\n  \
+-r  replace math with \"noun\" and \"noun verbs noun\" to preserve grammar\n  \
 -s  replace control sequences with space\n  \
 -t  force tex mode\n  \
 -w  word only output");

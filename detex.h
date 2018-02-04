@@ -80,5 +80,6 @@
 #define	CHSPACEOPT	's'
 #define	CHTEXOPT	't'
 #define	CHWORDOPT	'w'
+#define CHREPLACE   'r'
 
 #define	my_ERROR	-1
