@@ -177,7 +177,7 @@ VU	{U}|ex
 VD	{S}(({N}{S}{VU})|(\\{W})){S}
 VG	{VD}(plus{VD})?(minus{VD})?
 Z	\*?
-VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subset|\\sim|\neq
+VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\\neq|\\mapsto
 
 %Start Define Display IncludeOnly Input Math Normal Control
 %Start LaBegin LaDisplay LaEnd LaEnv LaFormula LaInclude LaSubfile
@@ -989,8 +989,8 @@ UsageExit(void)
 	puts("  -c  echo LaTeX \\cite, \\ref, and \\pageref values\n  \
 -e  <env-list> list of LaTeX environments to ignore\n  \
 -l  force latex mode\n  \
--n  do not follow \\input and \\include\n  \
--r  replace math with \"noun\"\n  \
+-n  do not follow \\input, \\include and \\subfile\n  \
+-r  replace math with \"noun\" and \"noun verbs noun\" to preserve grammar\n  \
 -s  replace control sequences with space\n  \
 -t  force tex mode\n  \
 -w  word only output");
