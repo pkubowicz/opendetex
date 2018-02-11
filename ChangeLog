@@ -173,4 +173,6 @@ Removed states.sed that modified detex.l to avoid Lex memory overrun - no longer
 
 Removed 'mathmatica' from the default list of environments which contents are ignored - 'mathmatica' is not supported by TeX. Added more ignored environments: algorithm, align, smallmatrix and several more.
 
+Fixed compilation on Cygwin.
+
 Removed special files for OS/2 - they required compilers that no longer exist. OpenDetex should be able to be compiled using GCC for OS/2.

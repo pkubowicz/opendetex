@@ -38,6 +38,8 @@
 #
 # Detex is a program to remove TeX and LaTeX constructs from text source.
 
+UNAME_S := $(shell uname -s)
+
 # Installation directory
 #
 DESTDIR	= /usr/local/bin
@@ -80,8 +82,10 @@ LEX	= flex
 
 # scanner library
 #
-#LEXLIB	= -ll
 LEXLIB	= -lfl
+ifeq ($(UNAME_S),Darwin)
+	LEXLIB	= -ll
+endif
 
 LPR	= lpr -p
 
