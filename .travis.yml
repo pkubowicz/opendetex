@@ -1,10 +1,12 @@
 language: c
+os:
+  - linux
+  - osx
 compiler:
   - clang
   - gcc
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y flex valgrind
+install:
+  - .travis/install.sh
 before_script:
   - flex --version
   - valgrind --version
