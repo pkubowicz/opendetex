@@ -1,8 +1,8 @@
 #!/bin/sh
 
 if [ "$TRAVIS_OS_NAME" = 'osx' ]; then
-	echo OSX
+	brew install valgrind
 else
-	sudo apt-get -qq update
-	sudo apt-get install -y flex valgrind
+	apt-get -qq update
+	apt-get install -y flex valgrind
 fi

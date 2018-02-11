@@ -8,6 +8,7 @@ compiler:
 install:
   - .travis/install.sh
 before_script:
+  - lex --version
   - flex --version
   - valgrind --version
 script: make && ./test.pl --valgrind
