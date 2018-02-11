@@ -73,8 +73,8 @@ CFLAGS	= -O ${DEFS} -Wall
 
 # Use your favorite lexical scanner
 #
-LEX	= lex
-#LEX	= flex
+#LEX	= lex
+LEX	= flex
 
 #LFLAGS	= -8 -C
 
@@ -101,7 +101,7 @@ SRC	= detex.l
 #
 D_OBJ	= detex.o
 
-VERSION = 2.8.3
+VERSION = 2.8.3-SNAPSHOT
 
 all:	${PROGS}
 

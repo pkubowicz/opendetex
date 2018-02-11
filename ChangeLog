@@ -165,6 +165,10 @@ Insert a space in place of right curly brace (Eric Miotto).
 Provide 'make uninstall'. Install man page when running 'make install'.
 
 (Version 2.8.3) -- UNRELEASED
+Added -r option that replaces math environments with nouns and verbs in a way that keeps sentences readable.
+
+Changed Makefile to fix a Mac OS X problem where frequently an empty output file was produced.
+
 Removed states.sed that modified detex.l to avoid Lex memory overrun - no longer needed on current machines. Added detex.c to the distributed package to allow compiling OpenDetex without having Flex.
 
 Removed 'mathmatica' from the default list of environments which contents are ignored - 'mathmatica' is not supported by TeX. Added more ignored environments: algorithm, align, smallmatrix and several more.

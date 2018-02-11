@@ -28,7 +28,7 @@ sub assert_produces_correct_output {
 		print "Test failed:\n";
 		if (`which kdiff3`) {
 			system("kdiff3 $compared");
-		} elsif (`which vimdiff`) {
+		} elsif (!$ENV{CI} && `which vimdiff`) {
 			system("vimdiff $compared");
 		} else {
 			system("diff -u $compared");

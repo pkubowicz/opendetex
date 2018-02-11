@@ -1,11 +1,19 @@
 language: c
+os:
+  - linux
+  - osx
 compiler:
   - clang
   - gcc
-before_install:
-  - sudo apt-get -qq update
-  - sudo apt-get install -y flex valgrind
+addons:
+  apt:
+    packages:
+    - flex
+    - valgrind
 before_script:
+  - lex --version
   - flex --version
-  - valgrind --version
-script: make && ./test.pl --valgrind
+  - if [ "$TRAVIS_OS_NAME" != "osx" ]; then valgrind --version; fi
+script:
+  - make
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
