@@ -11,7 +11,7 @@ addons:
     - flex
     - valgrind
 install:
-  - ./travis/install.sh
+  - .travis/install.sh
 before_script:
   - lex --version
   - flex --version
