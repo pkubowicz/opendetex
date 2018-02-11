@@ -5,10 +5,17 @@ os:
 compiler:
   - clang
   - gcc
+addons:
+  apt:
+    packages:
+    - flex
+    - valgrind
 install:
   - .travis/install.sh
 before_script:
   - lex --version
   - flex --version
   - valgrind --version
-script: make && ./test.pl --valgrind
+script:
+  - make
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
