@@ -10,10 +10,12 @@ addons:
     packages:
     - flex
     - valgrind
+install:
+  - ./travis/install.sh
 before_script:
   - lex --version
   - flex --version
-  - if [ "$TRAVIS_OS_NAME" != "osx" ]; then valgrind --version; fi
+  - valgrind --version
 script:
   - make
-  - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
+  - ./test.pl --valgrind
