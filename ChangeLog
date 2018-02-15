@@ -164,8 +164,8 @@ Insert a space in place of right curly brace (Eric Miotto).
 
 Provide 'make uninstall'. Install man page when running 'make install'.
 
-(Version 2.8.3) -- UNRELEASED
-Added -r option that replaces math environments with nouns and verbs in a way that keeps sentences readable.
+(Version 2.8.3) -- February, 2018
+Added -r option that replaces math environments with nouns and verbs in a way that keeps sentences readable. Thanks to Sophie Huiberts.
 
 Changed Makefile to fix a Mac OS X problem where frequently an empty output file was produced.
 
