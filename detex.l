@@ -442,7 +442,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 								putchar(')');
 								footnoteLevel = -100;
 							}
-							SPACE;}
+							}
 <Normal>{W}[']*{W}				{   if (fWord)
 							(void)printf("%s\n", yytext);
 						    else
