@@ -8,51 +8,51 @@
 
 
 
-First 
+First
 
 Between
 
-Something 
-Begin of text. Bold , teletype , small caps  etc.
-Emphasis  verb1 - or - verb2
+Something
+Begin of text. Bold, teletype, small caps etc.
+Emphasis verb1 - or - verb2
 
 Now label and reference and
 another indexing . Also don't show
 cites without, or with space.
 
-Footnotes have to (be shown)  also with (numbers
+Footnotes have to (be shown) also with (numbers
 or
-complex  - content) .
+complex - content).
 
 Now hyphenation and "various" "styles" "of" "quotes" 'more'.
 
-Special characters: test/ slash
+Special characters: test/slash
 
 This is minipage.
 
 
-			This is figure. 
-	 
+			This is figure.
+	
 
 
- 
-This is table. 
 
- 
+This is table.
 
- 
 
- 
+
+
+
+
 Hey, this is sloppypar!
 
 Paragraph
 markup
- commands
+commands
 
 Later on
 
 
 Text to include.
- 
+
 
 where
