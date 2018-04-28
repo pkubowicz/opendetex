@@ -52,6 +52,12 @@ commands
 Later on
 
 
+Line ending with macroshould not eat an empty newline
+
+Line ending with macro
+
+should not eat an empty newline
+
 Text to include.
 
 
