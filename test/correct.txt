@@ -59,6 +59,8 @@ Line ending with macro
 
 should not eat an empty newline
 
+An inline math equation like  should not produce an empty line
+
 Text to include.
 
 
