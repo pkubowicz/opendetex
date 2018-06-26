@@ -182,3 +182,5 @@ Removed special files for OS/2 - they required compilers that no longer exist. O
 Stoped generating additional spaces after commands (#41). Thanks to Martin Nowack.
 
 Fixed space missing in output when two newlines follow a macro (#42). Thanks to sgerwk.
+
+Started treating newlines in inline math as spaces (#45). Thanks to sgerwk.
