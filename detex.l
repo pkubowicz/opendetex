@@ -365,7 +365,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 
 <Normal>"$"		/* math mode */		{BEGIN Math; NOUN;}
 <Math>"$"					BEGIN Normal;
-<Math>"\n"					NEWLINE;
+<Math>"\n"					;
 <Math>"\\$"					;
 <Math>{VERBSYMBOL}			VERBNOUN;
 <Math>.						;
