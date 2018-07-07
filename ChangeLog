@@ -177,7 +177,7 @@ Fixed compilation on Cygwin.
 
 Removed special files for OS/2 - they required compilers that no longer exist. OpenDetex should be able to be compiled using GCC for OS/2.
 
-(Version 2.8.4) -- UNRELEASED
+(Version 2.8.4) -- July, 2018
 
 Stoped generating additional spaces after commands (#41). Thanks to Martin Nowack.
 
