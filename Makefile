@@ -120,14 +120,14 @@ detex.c: detex.l
 	mv lex.yy.c detex.c
 
 man-page:
-	troff -man detex.1l
+	troff -man detex.1
 
 # If you want detex available as delatex, uncomment the last two lines of
 # this target
 install: all
 	rm -f ${DESTDIR}/detex
 	install -c -m 775 -g staff -s detex ${DESTDIR}
-	install detex.1l /usr/local/share/man/man1
+	install detex.1 /usr/local/share/man/man1
 #	rm -f ${DESTDIR}/delatex
 #	ln ${DESTDIR}/detex ${DESTDIR}/delatex
 
