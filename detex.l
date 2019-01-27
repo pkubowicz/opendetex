@@ -204,7 +204,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 <LaVerbatim>.					ECHO;
 
 <LaBegin>{S}"{"{S}"minipage"{S}"}"		{ KILLARGS(1);
-						  if (BeginEnv("minpage"))
+						  if (BeginEnv("minipage"))
 							BEGIN LaEnv;
 						  else
 							BEGIN LaMacro; /* Normal; */
