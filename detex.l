@@ -70,9 +70,16 @@
 #include <strings.h>
 #define	strrchr rindex
 #endif
-#ifndef MAXPATHLEN
+
+#ifdef HAVE_LIMITS_H
+#include <limits.h>
+#else
 #include <sys/param.h>
+#ifndef PATH_MAX /* for old BSD */
+#define PATH_MAX MAXPATHLEN
 #endif
+#endif /* HAVE_LIMITS_H */
+
 #ifdef OS2
 #include <stdlib.h>
 #endif
