@@ -190,3 +190,5 @@ Started treating newlines in inline math as spaces (#45). Thanks to sgerwk.
 Fixed man page on macOS (#47). Thanks to FX Coudert.
 
 Added -v option for showing version.
+
+(Version 2.8.6) -- UNRELEASED
