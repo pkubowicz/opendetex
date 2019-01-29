@@ -185,7 +185,7 @@ Fixed space missing in output when two newlines follow a macro (#42). Thanks to 
 
 Started treating newlines in inline math as spaces (#45). Thanks to sgerwk.
 
-(Version 2.8.5) -- UNRELEASED
+(Version 2.8.5) -- January, 2019
 
 Fixed man page on macOS (#47). Thanks to FX Coudert.
 
