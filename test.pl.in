@@ -18,14 +18,14 @@ sub assert_produces_correct_output {
 	my ($input, $correct, $options) = @_;
 	$options ||= '';
 	my $options_desc = $options ? " ($options)" : '';
-	print "Checking correct output is produced for $input->$correct$options_desc...\n";
-	chdir 'test';
-	execute_cmd("../delatex $options $input > /tmp/testDelatex.txt");
-	my $compared = "$correct /tmp/testDelatex.txt";
+	print "Checking correct output is produced for $input->$correct$options_desc\n";
+	execute_cmd("./detex $options @top_srcdir@/test/$input > /tmp/testDelatex.txt");
+
+	my $compared = "@top_srcdir@/test/$correct /tmp/testDelatex.txt";
 	my $diffResult = `diff $compared 2>&1`;
 
 	if ($diffResult ne '') {
-		print "Test failed:\n";
+		print "Test failed:\n":
 		if (`which kdiff3`) {
 			system("kdiff3 $compared");
 		} elsif (!$ENV{CI} && `which vimdiff`) {
@@ -35,18 +35,17 @@ sub assert_produces_correct_output {
 		}
 		exit(11);
 	}
-	chdir '..'
 }
 
 sub run_for_wrong_input {
 	my ($input) = @_;
 	print "Checking response for $input...\n";
-	execute_cmd("./delatex $input");
+	execute_cmd("./detex @top_srcdir@/$input");
 }
 
 sub execute_cmd {
 	my ($cmd) = @_;
-	system(get_cmd($cmd)) == 0 or die;
+	system(get_cmd($cmd)) or die;
 }
 
 sub get_cmd {

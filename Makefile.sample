@@ -140,11 +140,16 @@ clean:
 	-rm -f a.out core *.s *.o ERRS errs .,* .emacs_[0-9]*
 	-rm -f ${PROGS} xxx.l lex.yy.c detex.c
 	-rm -f *.tar.bz2
+	-rm -f config.h test.pl
 
 print:	${HDR} ${SRC}
 	${LPR} Makefile ${HDR} ${SRC}
 
-test: all
+test.pl: test.pl.in
+	sed -e 's/@top_srcdir@/./g' test.pl.in >test.pl
+	chmod u+x test.pl
+
+test: all test.pl
 	./test.pl
 
 run: delatex
@@ -158,3 +163,7 @@ package: clean detex.c
 detex.c: detex.h
 detex.c: detex.l
 
+detex.o: config.h
+
+config.h:
+	touch config.h

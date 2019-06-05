@@ -15,5 +15,8 @@ before_script:
   - flex --version
   - if [ "$TRAVIS_OS_NAME" != "osx" ]; then valgrind --version; fi
 script:
-  - make
+  - make -f Makefile.sample all test.pl
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
+  - autoreconf --install
+  - ./configure
+  - make distcheck

@@ -47,6 +47,7 @@
  *	file.
  */
 
+#include "config.h"
 #include "detex.h"
 
 #ifdef KPATHSEA
