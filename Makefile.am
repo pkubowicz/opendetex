@@ -11,6 +11,9 @@ TEST_EXTENSIONS = .pl
 PL_LOG_COMPILER = $(PERL)
 AM_PL_LOG_FLAGS = -w
 
+PL_LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
+	$(top_srcdir)/aux_files/tap-driver.sh
+
 dist_check_DATA = test/correct.txt test/in.tex test/noinclude.tex	\
 	test/noinclude-correct.txt test/nouns.tex			\
 	test/nouns-correct.txt test/part.tex test/unterminated.txt	\

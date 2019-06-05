@@ -7,6 +7,7 @@ AC_CONFIG_SRCDIR([detex.h])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_AUX_DIR([aux_files])
 AC_CONFIG_MACRO_DIR([m4])
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
 
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 

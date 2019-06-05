@@ -1,5 +1,8 @@
 #!/usr/bin/perl -w
 
+print "1..10\n";
+my $current_test = 1;
+my $exit_status = 0;
 assert_produces_correct_output('in.tex', 'correct.txt');
 assert_produces_correct_output('in.tex', 'correct.txt', '-l');
 assert_produces_correct_output('noinclude.tex', 'noinclude-correct.txt', '-n');
@@ -12,20 +15,19 @@ run_for_wrong_input("non-existent-file.tex");
 run_for_wrong_input("non-existent-file.txt");
 run_for_wrong_input("test/unterminated.txt");
 
-print "Tests ok\n";
+exit $exit_status;
 
 sub assert_produces_correct_output {
 	my ($input, $correct, $options) = @_;
 	$options ||= '';
 	my $options_desc = $options ? " ($options)" : '';
-	print "Checking correct output is produced for $input->$correct$options_desc\n";
 	execute_cmd("./detex $options @top_srcdir@/test/$input > /tmp/testDelatex.txt");
+	print "Correct output is produced for $input->$correct$options_desc\n";
 
 	my $compared = "@top_srcdir@/test/$correct /tmp/testDelatex.txt";
 	my $diffResult = `diff $compared 2>&1`;
 
 	if ($diffResult ne '') {
-		print "Test failed:\n":
 		if (`which kdiff3`) {
 			system("kdiff3 $compared");
 		} elsif (!$ENV{CI} && `which vimdiff`) {
@@ -33,19 +35,24 @@ sub assert_produces_correct_output {
 		} else {
 			system("diff -u $compared");
 		}
-		exit(11);
 	}
 }
 
 sub run_for_wrong_input {
 	my ($input) = @_;
-	print "Checking response for $input...\n";
 	execute_cmd("./detex @top_srcdir@/$input");
+	print "Response for $input...\n";
 }
 
 sub execute_cmd {
 	my ($cmd) = @_;
-	system(get_cmd($cmd)) or die;
+	if (system(get_cmd($cmd)) == 0) {
+	    print "ok ${current_test} - ";
+	} else {
+	    print "not ok ${current test} - ";
+	    $exit_status = 11;
+	}
+	$current_test = $current_test + 1
 }
 
 sub get_cmd {
