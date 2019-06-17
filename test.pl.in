@@ -28,9 +28,9 @@ sub assert_produces_correct_output {
 	my $diffResult = `diff $compared 2>&1`;
 
 	if ($diffResult ne '') {
-		if (`which kdiff3`) {
+		if (`which kdiff3 2>/dev/null`) {
 			system("kdiff3 $compared");
-		} elsif (!$ENV{CI} && `which vimdiff`) {
+		} elsif (!$ENV{CI} && `which vimdiff 2>/dev/null`) {
 			system("vimdiff $compared");
 		} else {
 			system("diff -u $compared");
