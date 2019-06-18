@@ -26,6 +26,6 @@ before_script:
 script:
   - make -f Makefile.sample all test.pl
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
-  - autoreconf-2.69 --install
+  - autoreconf --install
   - ./configure
   - make distcheck
