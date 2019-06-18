@@ -38,3 +38,5 @@ check-valgrind:
 
 print: detex.h detex.l
 	lpr -p Makefile detex.h detex.l
+
+ACLOCAL_AMFLAGS = -I m4
