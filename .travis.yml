@@ -10,6 +10,9 @@ addons:
     packages:
     - flex
     - valgrind
+    - autoconf
+    - automake
+    - autoconf-archive
 before_script:
   - lex --version
   - flex --version
