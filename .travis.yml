@@ -10,10 +10,22 @@ addons:
     packages:
     - flex
     - valgrind
+    - autoconf
+    - automake
+    - autoconf-archive
+before_install:
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then brew update;
+      brew upgrade automake || true;
+      brew reinstall autoconf || true;
+      brew install autoconf-archive || true;
+    fi
 before_script:
   - lex --version
   - flex --version
   - if [ "$TRAVIS_OS_NAME" != "osx" ]; then valgrind --version; fi
 script:
-  - make
+  - make -f Makefile.sample all test.pl
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
+  - autoreconf --install
+  - ./configure
+  - make distcheck

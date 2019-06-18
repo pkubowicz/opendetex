@@ -16,7 +16,7 @@ After pushing check cross-platform compilation results on commits list on GitHub
 
 1. Create a commit setting version to stable:
   - ChangeLog: change UNRELEASED to current date
-  - Makefile: strip -UNRELEASED from version number
+  - Makefile.sample and configure.ac: strip -UNRELEASED from version number
   - README: remove UNRELEASED
 2. Make sure it works: `make clean test package`
 3. Git-tag this version like "v2.8.5"

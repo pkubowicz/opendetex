@@ -3,3 +3,8 @@ detex
 detex.c
 detex.o
 *.tar.bz2
+
+Makefile.in
+aclocal.m4
+autom4te.cache
+configure
