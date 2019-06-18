@@ -13,6 +13,12 @@ addons:
     - autoconf
     - automake
     - autoconf-archive
+before_install:
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then brew update;
+      brew upgrade automake;
+      brew upgrade autoconf;
+      brew upgrade autoconf-archive;
+    fi
 before_script:
   - lex --version
   - flex --version
