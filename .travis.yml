@@ -17,3 +17,4 @@ before_script:
 script:
   - make
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then ./test.pl; else ./test.pl --valgrind; fi
+  - make package
