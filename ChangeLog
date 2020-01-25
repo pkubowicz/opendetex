@@ -196,3 +196,5 @@ Added -v option for showing version.
 Fixed buffer overflow (CVE-2019-19601 #60). Thanks to Akira Kakuto, Norbert Preining and TeX Live team.
 
 (Version 2.8.7) -- UNRELEASED
+
+Reduced size of .tar.bz2 package by excluding object file added by mistake.

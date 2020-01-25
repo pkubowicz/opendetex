@@ -151,7 +151,7 @@ run: delatex
 	./delatex in > out.txt
 
 package: clean detex.c
-	tar cjfv opendetex-${VERSION}.tar.bz2 ChangeLog COPYRIGHT detex.* INSTALL Makefile README
+	tar cjfv opendetex-${VERSION}.tar.bz2 --exclude='*.o' ChangeLog COPYRIGHT detex.* INSTALL Makefile README
 
 # Dependencies
 #
