@@ -193,6 +193,6 @@ Added -v option for showing version.
 
 (Version 2.8.6) -- January, 2020
 
-Fixed buffer overflow (CVE-2019-19601 #60).
+Fixed buffer overflow (CVE-2019-19601 #60). Thanks to Akira Kakuto, Norbert Preining and TeX Live team.
 
 (Version 2.8.7) -- UNRELEASED
