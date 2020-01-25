@@ -898,24 +898,25 @@ TexOpen(char *sbFile)
 #else
 	    if (*sbFile == '/') {	/* absolute path */
 #endif
-		(void)sprintf(sbFullPath, "%s", sbFile);
-		iPath = csbInputPaths;	/* only check once */
-	    } else
-		(void)sprintf(sbFullPath, "%s/%s", rgsbInputPaths[iPath], sbFile);
+			(void)snprintf(sbFullPath, PATH_MAX-1, "%s", sbFile);
+			iPath = csbInputPaths;	/* only check once */
+	    } else {
+			(void)snprintf(sbFullPath, PATH_MAX-1, "%s/%s", rgsbInputPaths[iPath], sbFile);
+		}
 #ifdef OS2
 	    pch = sbFullPath;
-	    while (pch = strchr(pch, '\\'))
-		*pch = '/';
+	    while (pch = strchr(pch, '\\')) {
+			*pch = '/';
+		}
 #endif
 
 	    /* If sbFile ends in .tex then it must be there */
 	    if ((pch = strrchr(sbFullPath, '.')) != NULL
-			&& (strcmp(pch, ".tex") == 0))
-	    {
-		if ((fp = fopen(sbFullPath, "r")) != NULL)
-		    return(fp);
-		else
-		    continue;
+			&& (strcmp(pch, ".tex") == 0)) {
+			if ((fp = fopen(sbFullPath, "r")) != NULL)
+				return(fp);
+			else
+				continue;
 	    }
 
 	    /* if .<ext> then try to open it.  the '.' represents   */
