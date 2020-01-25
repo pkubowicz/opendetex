@@ -194,3 +194,5 @@ Added -v option for showing version.
 (Version 2.8.6) -- January, 2020
 
 Fixed buffer overflow (CVE-2019-19601 #60).
+
+(Version 2.8.7) -- UNRELEASED
