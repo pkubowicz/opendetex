@@ -179,6 +179,8 @@ S	[ \t\n]*
 W	[a-zA-Z]+
 N	[+-]?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))
 U	pt|pc|in|bp|cm|mm|dd|cc|sp
+E   !
+P   {E}{W}|{W} 
 HU	{U}|em
 HD	{S}(({N}{S}{HU})|(\\{W})){S}
 HG	{HD}(plus{HD})?(minus{HD})?
@@ -219,7 +221,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 						  IGNORE;
 						}
 
-<LaBegin>{S}"{"{S}"table"{S}"}"{S}"["{W}"]"		{
+<LaBegin>{S}"{"{S}"table"{S}"}"{S}"["{P}"]"		{
 						  if (BeginEnv("table"))
 							BEGIN LaEnv;
 						  else
@@ -227,7 +229,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 						  IGNORE;
 						}
 
-<LaBegin>{S}"{"{S}"figure"{S}"}"{S}"["{W}"]"		{
+<LaBegin>{S}"{"{S}"figure"{S}"}"{S}"["{P}"]"		{
 						  if (BeginEnv("figure"))
 							BEGIN LaEnv;
 						  else
