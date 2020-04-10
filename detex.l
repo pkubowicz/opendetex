@@ -179,8 +179,7 @@ S	[ \t\n]*
 W	[a-zA-Z]+
 N	[+-]?(([0-9]+(\.[0-9]+)?)|(\.[0-9]+))
 U	pt|pc|in|bp|cm|mm|dd|cc|sp
-E   !
-P   {E}{W}|{W} 
+P   [a-zA-Z!]+
 HU	{U}|em
 HD	{S}(({N}{S}{HU})|(\\{W})){S}
 HG	{HD}(plus{HD})?(minus{HD})?
