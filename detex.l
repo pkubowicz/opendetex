@@ -41,7 +41,7 @@
 
 
 /*
- * detex [-e environment-list] [-c] [-l] [-n] [-s] [-t] [-w] [file[.tex] ]
+ * detex [-e environment-list] [-c] [-l] [-n] [-s] [-t] [-w] [-1] [file[.tex] ]
  *
  *	This program is used to remove TeX or LaTeX constructs from a text
  *	file.
@@ -95,13 +95,16 @@
 
 %{
 #undef IGNORE
+#undef ECHO
 
 #define	LaBEGIN		if (fLatex) BEGIN
-#define	IGNORE		if (fSpace && !fWord) putchar(' ')
+#define	IGNORE		Ignore()
+#define INCRLINENO      IncrLineNo()
+#define ECHO            Echo()
 #define NOUN		if (fSpace && !fWord && !fReplace) putchar(' '); else {if (fReplace) printf("noun");}
 #define VERBNOUN		if (fReplace) printf(" verbs noun"); /* puts a verb and a noun to make grammar checking work */
 #define	SPACE		if (!fWord) putchar(' ')
-#define	NEWLINE		if (!fWord) putchar('\n')
+#define	NEWLINE		LineBreak()
 #define	LATEX		fLatex=!fForcetex
 #define KILLARGS(x)	cArgs=x; LaBEGIN LaMacro
 #define STRIPARGS(x)	cArgs=x; LaBEGIN LaMacro2
@@ -109,6 +112,10 @@
 
 #define NO_MALLOC_DECL
 
+void LineBreak();
+void Ignore();
+void IncrLineNo();
+void Echo();
 void AddInclude(char *sbFile);
 void ErrorExit(const char *sb1);
 void UsageExit(void);
@@ -158,6 +165,7 @@ int	fFollow = 1;			/* flag to follow input/include */
 int	fCite = 0;			/* flag to echo \cite and \ref args */
 int	fSpace = 0;			/* flag to replace \cs with space */
 int	fForcetex = 0;			/* flag to inhibit latex mode */
+int	fSrcLoc = 0;			/* flag to display source location of original file */
 int fShowPictures = 0;  /* flag to show picture names */
 int fReplace = 0;  /* flag to replace envirnments with "noun" */
 
@@ -169,7 +177,10 @@ int footnoteLevel = -100;
  * otherwise output contains imported files in reverse order.  Weird, but
  * true.
  */
-YY_BUFFER_STATE rgsb[NOFILE + 1]; /* flex context stack */
+YY_BUFFER_STATE rgsb[NOFILE + 1];        /* flex context stack */
+char*           fFileNames[NOFILE + 1];  /* names of the buffers in context stack */
+int             fFileLines[NOFILE + 1];  /* line number in each of the context files */
+int             fIsColumn0 = 1;          /* Are we at the begining of a line? */
 int             csb = 0;		 /* depth of flex context stack */
 #endif /* FLEX_SCANNER */
 
@@ -195,7 +206,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 %start LaBreak LaPicture
 
 %%
-<Normal>"%".*		/* ignore comments */	;
+<Normal>"%".*		/* ignore comments */	{INCRLINENO;}
 
 <Normal>"\\begin"{S}"{"{S}"document"{S}"}""\n"*	{LATEX; IGNORE;}
 
@@ -243,11 +254,11 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 						    IGNORE;
 						}
 	/*<LaBegin>"\n"					NEWLINE;*/
-<LaBegin>.					;
+<LaBegin>.					{INCRLINENO;}
 
 <LaEnv>"\\end"  /* absorb some environments */	{LaBEGIN LaEnd; IGNORE;}
 <LaEnv>"\n"+					;/*NEWLINE;*/
-<LaEnv>.					;
+<LaEnv>.					{INCRLINENO;}
 
 <LaEnd>{W}		 /* end environment */	{   if (EndEnv(yytext))
 							BEGIN Normal;
@@ -255,7 +266,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 						}
 <LaEnd>"}"					{BEGIN LaEnv; IGNORE;}
 	/*<LaEnd>"\n"					NEWLINE;*/
-<LaEnd>.					;
+<LaEnd>.					{INCRLINENO;}
 
 <Normal>"\\kern"{HD}				;
 <Normal>"\\vskip"{VG}				;
@@ -285,7 +296,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 
 <LaPicture>"{"					;
 <LaPicture>[^{}]+				{ if(fShowPictures) { printf("<Picture %s>", yytext); } }
-<LaPicture>"\}"{S}"\n"+					BEGIN Normal;
+<LaPicture>"\}"{S}"\n"+				{ BEGIN Normal; INCRLINENO; }
 <LaPicture>"\}"					BEGIN Normal;
 
 <Normal>"\\definecolor"				{ KILLARGS(3); }
@@ -459,13 +470,13 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 							ECHO;
 						}
 <Normal>[0-9]+					if (!fWord) ECHO;
-<Normal>.					if (!fWord) ECHO;
-<Normal>"\n"					if (!fWord) NEWLINE;
+<Normal>.					{ INCRLINENO; if (!fWord) ECHO; }
+<Normal>"\n"					{ if (!fWord) NEWLINE; }
 <Normal>("\t")+					if (!fWord) putchar('\t');
 
 <LaMacro>"\["					{ BEGIN LaOptArg; }
 <LaMacro>"{"					{ cOpenBrace++; }
-<LaMacro>"}""\n"{0,1}					{   cOpenBrace--;
+<LaMacro>"}""\n"{0,1}				{   cOpenBrace--; INCRLINENO;
 						    if (cOpenBrace == 0)
 						    {
 							if (--cArgs==0)
@@ -494,6 +505,15 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 %%
 
 /******
+** stracpy -- String Allocate and Copy;
+******/
+
+void stracpy(char** dest, char* src) {
+  *dest = SafeMalloc(strlen(src), "Can't allocate mem");
+  strcpy(*dest , src);
+}
+
+/******
 ** main --
 **	Set sbProgName to the base of arg 0.
 **	Set the input paths.
@@ -505,6 +525,7 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 **		-s		replace control sequences with space
 **		-t		force tex mode
 **		-w		word only output
+**              -1              output some location information
 **	Set the list of LaTeX environments to ignore.
 **	Process each input file.
 **	If no input files are specified on the command line, process stdin.
@@ -578,6 +599,9 @@ main(int cArgs, char *rgsbArgs[])
 			case CHVERSIONOPT:
 			VersionExit();
 			break;
+                    case CHSRCLOC:
+                        fSrcLoc = 1;
+                        break;
 		    default:
 			sbBadOpt[0] = *pch;
 			sbBadOpt[1] = '\0';
@@ -599,6 +623,8 @@ main(int cArgs, char *rgsbArgs[])
 		Warning("can't open file", rgsbArgs[iArgs]);
 		continue;;
 	    }
+            fFileNames[csb] = rgsbArgs[iArgs];
+            fFileLines[csb] = 1;
 	    BEGIN Normal;
 	    (void)yylex();
 	}
@@ -666,6 +692,65 @@ yyless(int n)
 #endif
 
 /******
+** LineBreak -- choses the proper way to break a line. If '-1' option is
+**      enabled we also want to output some source location information.
+******/
+
+void
+LineBreak()
+{
+  if (fWord) return;
+  if (fSrcLoc && fIsColumn0) {
+    printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]);
+    fIsColumn0 = 0;
+  }
+  putchar('\n');
+  fFileLines[csb]++; fIsColumn0=1;
+}
+
+/******
+** Echo -- If we are at column 0 and have specified '-1'; output 
+**      the source location information.
+******/
+
+void
+Echo()
+{
+  if (fSrcLoc && fIsColumn0) {
+    printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]+1);
+    fIsColumn0 = 0;
+  }
+  fprintf(yyout, "%s", yytext);
+}
+
+/******
+** IncrLineNo -- Increase the correct linenumber counter and
+**      reset the the 'fIsColumn0' to true.
+******/
+
+void
+IncrLineNo()
+{
+  for (char* c=yytext; *c != '\0'; c++) {
+    if (*c == '\n') {
+      fFileLines[csb]++; fIsColumn0=1;
+    }
+  }
+}
+
+/******
+** Ignore -- Since we might need to track source location information we
+**    cannot just ignore text. We must at least increase the linenumber counter.
+******/
+
+void 
+Ignore()
+{
+  IncrLineNo();
+  if (fSpace && !fWord) putchar(' ');
+}
+
+/******
 ** SetEnvIgnore -- sets rgsbEnvIgnore to the values indicated by the
 **	sbEnvList.
 ******/
@@ -720,6 +805,7 @@ EndEnv(const char *sbEnv)
 **	the sbFile is ignored.
 ******/
 
+
 void
 InputFile(char *sbFile)
 {
@@ -734,7 +820,9 @@ InputFile(char *sbFile)
             return;
 	} 
 #ifdef FLEX_SCANNER
-        rgsb[csb++] = YY_CURRENT_BUFFER;
+        rgsb[csb++]     = YY_CURRENT_BUFFER;
+        fFileLines[csb] = 0;
+        stracpy(&fFileNames[csb], sbFile);
         yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
 #endif /* FLEX_SCANNER */
 }
@@ -760,7 +848,9 @@ IncludeFile(char *sbFile)
             return;
 	}
 #ifdef FLEX_SCANNER
-        rgsb[csb++] = YY_CURRENT_BUFFER;
+        rgsb[csb++]     = YY_CURRENT_BUFFER;
+        fFileLines[csb] = 0;
+        stracpy(&fFileNames[csb], sbFile);
         yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
 #endif /* FLEX_SCANNER */
 }
@@ -1008,6 +1098,7 @@ UsageExit(void)
 -s  replace control sequences with space\n  \
 -t  force tex mode\n  \
 -w  word only output\n  \
+-1  outputs the original file name and line number in the beginning of each line\n  \
 -v  show program version and exit");
 	exit(0);
 }
