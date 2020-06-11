@@ -1088,7 +1088,7 @@ ErrorExit(const char *sb1)
 void
 UsageExit(void)
 {
-	(void)printf("\n%s [ -clnrstw ] [ -e environment-list ] [ filename[.tex] ... ]\n",
+	(void)printf("\n%s [ -clnrstw1 ] [ -e environment-list ] [ filename[.tex] ... ]\n",
 		sbProgName);
 	puts("  -c  echo LaTeX \\cite, \\ref, and \\pageref values\n  \
 -e  <env-list> list of LaTeX environments to ignore\n  \
