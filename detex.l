@@ -98,9 +98,9 @@
 #undef ECHO
 
 #define	LaBEGIN		if (fLatex) BEGIN
-#define	IGNORE		Ignore()
-#define INCRLINENO      IncrLineNo()
-#define ECHO            Echo()
+#define	IGNORE      Ignore()
+#define INCRLINENO  IncrLineNo()
+#define ECHO        Echo()
 #define NOUN		if (fSpace && !fWord && !fReplace) putchar(' '); else {if (fReplace) printf("noun");}
 #define VERBNOUN		if (fReplace) printf(" verbs noun"); /* puts a verb and a noun to make grammar checking work */
 #define	SPACE		if (!fWord) putchar(' ')
@@ -599,9 +599,9 @@ main(int cArgs, char *rgsbArgs[])
 			case CHVERSIONOPT:
 			VersionExit();
 			break;
-                    case CHSRCLOC:
-                        fSrcLoc = 1;
-                        break;
+			case CHSRCLOC:
+			fSrcLoc = 1;
+			break;
 		    default:
 			sbBadOpt[0] = *pch;
 			sbBadOpt[1] = '\0';
@@ -699,13 +699,13 @@ yyless(int n)
 void
 LineBreak()
 {
-  if (fWord) return;
-  if (fSrcLoc && fIsColumn0) {
-    printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]);
-    fIsColumn0 = 0;
-  }
-  putchar('\n');
-  fFileLines[csb]++; fIsColumn0=1;
+	if (fWord) return;
+	if (fSrcLoc && fIsColumn0) {
+		printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]);
+		fIsColumn0 = 0;
+	}
+	putchar('\n');
+	fFileLines[csb]++; fIsColumn0=1;
 }
 
 /******
@@ -716,11 +716,11 @@ LineBreak()
 void
 Echo()
 {
-  if (fSrcLoc && fIsColumn0) {
-    printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]+1);
-    fIsColumn0 = 0;
-  }
-  fprintf(yyout, "%s", yytext);
+	if (fSrcLoc && fIsColumn0) {
+		printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]);
+		fIsColumn0 = 0;
+	}
+	fprintf(yyout, "%s", yytext);
 }
 
 /******
@@ -731,11 +731,11 @@ Echo()
 void
 IncrLineNo()
 {
-  for (char* c=yytext; *c != '\0'; c++) {
-    if (*c == '\n') {
-      fFileLines[csb]++; fIsColumn0=1;
-    }
-  }
+	for (char* c=yytext; *c != '\0'; c++) {
+		if (*c == '\n') {
+			fFileLines[csb]++; fIsColumn0=1;
+		}
+	}
 }
 
 /******
@@ -746,8 +746,8 @@ IncrLineNo()
 void 
 Ignore()
 {
-  IncrLineNo();
-  if (fSpace && !fWord) putchar(' ');
+	IncrLineNo();
+	if (fSpace && !fWord) putchar(' ');
 }
 
 /******
@@ -821,7 +821,7 @@ InputFile(char *sbFile)
 	} 
 #ifdef FLEX_SCANNER
         rgsb[csb++]     = YY_CURRENT_BUFFER;
-        fFileLines[csb] = 0;
+        fFileLines[csb] = 1;
         stracpy(&fFileNames[csb], sbFile);
         yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
 #endif /* FLEX_SCANNER */
@@ -849,7 +849,7 @@ IncludeFile(char *sbFile)
 	}
 #ifdef FLEX_SCANNER
         rgsb[csb++]     = YY_CURRENT_BUFFER;
-        fFileLines[csb] = 0;
+        fFileLines[csb] = 1;
         stracpy(&fFileNames[csb], sbFile);
         yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
 #endif /* FLEX_SCANNER */
