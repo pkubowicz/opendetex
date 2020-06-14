@@ -198,3 +198,5 @@ Fixed buffer overflow (CVE-2019-19601 #60). Thanks to Akira Kakuto, Norbert Prei
 (Version 2.8.7) -- UNRELEASED
 
 Reduced size of .tar.bz2 package by excluding object file added by mistake.
+
+Handle forcing placement with ! (#62). Thanks to schrc3b6.
