@@ -87,6 +87,11 @@ with the deletions mentioned above.  Newline characters are
 preserved where possible
 so that the lines of output match the input as closely as possible.
 .PP
+The 
+.B \-1
+option will prefix each printed line with `filename:linenumber:` indicating
+where that line is coming from in terms of the original (La)TeX document.
+.PP
 The TEXINPUTS environment variable is used to find \\input and \\include
 files.  Like \fITeX\fP, it interprets a leading or trailing `:' as the default
 TEXINPUTS.  It does \fInot\fP support the `//' directory expansion magic sequence.

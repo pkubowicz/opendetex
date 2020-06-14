@@ -98,9 +98,9 @@
 #undef ECHO
 
 #define	LaBEGIN		if (fLatex) BEGIN
-#define	IGNORE      Ignore()
-#define INCRLINENO  IncrLineNo()
-#define ECHO        Echo()
+#define	IGNORE		Ignore()
+#define INCRLINENO	IncrLineNo()
+#define ECHO		Echo()
 #define NOUN		if (fSpace && !fWord && !fReplace) putchar(' '); else {if (fReplace) printf("noun");}
 #define VERBNOUN		if (fReplace) printf(" verbs noun"); /* puts a verb and a noun to make grammar checking work */
 #define	SPACE		if (!fWord) putchar(' ')
@@ -166,8 +166,8 @@ int	fCite = 0;			/* flag to echo \cite and \ref args */
 int	fSpace = 0;			/* flag to replace \cs with space */
 int	fForcetex = 0;			/* flag to inhibit latex mode */
 int	fSrcLoc = 0;			/* flag to display source location of original file */
-int fShowPictures = 0;  /* flag to show picture names */
-int fReplace = 0;  /* flag to replace envirnments with "noun" */
+int fShowPictures = 0;	/* flag to show picture names */
+int fReplace = 0;		/* flag to replace envirnments with "noun" */
 
 int currBracesLevel = 0;
 int footnoteLevel = -100;
@@ -177,11 +177,11 @@ int footnoteLevel = -100;
  * otherwise output contains imported files in reverse order.  Weird, but
  * true.
  */
-YY_BUFFER_STATE rgsb[NOFILE + 1];        /* flex context stack */
-char*           fFileNames[NOFILE + 1];  /* names of the buffers in context stack */
-int             fFileLines[NOFILE + 1];  /* line number in each of the context files */
-int             fIsColumn0 = 1;          /* Are we at the begining of a line? */
-int             csb = 0;		 /* depth of flex context stack */
+YY_BUFFER_STATE rgsb[NOFILE + 1];		/* flex context stack */
+char*			fFileNames[NOFILE + 1];	/* names of the buffers in context stack */
+int				fFileLines[NOFILE + 1];	/* line number in each of the context files */
+int				fIsColumn0 = 1;			/* Are we at the begining of a line? */
+int				csb = 0;				/* depth of flex context stack */
 #endif /* FLEX_SCANNER */
 
 %}
@@ -505,15 +505,6 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 %%
 
 /******
-** stracpy -- String Allocate and Copy;
-******/
-
-void stracpy(char** dest, char* src) {
-  *dest = SafeMalloc(strlen(src), "Can't allocate mem");
-  strcpy(*dest , src);
-}
-
-/******
 ** main --
 **	Set sbProgName to the base of arg 0.
 **	Set the input paths.
@@ -623,8 +614,8 @@ main(int cArgs, char *rgsbArgs[])
 		Warning("can't open file", rgsbArgs[iArgs]);
 		continue;;
 	    }
-            fFileNames[csb] = rgsbArgs[iArgs];
-            fFileLines[csb] = 1;
+		fFileNames[csb] = rgsbArgs[iArgs];
+		fFileLines[csb] = 1;
 	    BEGIN Normal;
 	    (void)yylex();
 	}
@@ -663,6 +654,7 @@ yywrap(void)
 #ifdef FLEX_SCANNER
         /* Pop context state */
 	if (csb > 0) {
+		free(fFileNames[csb]);
 		yy_delete_buffer( YY_CURRENT_BUFFER );
 		yy_switch_to_buffer( rgsb[--csb] );
 	}
@@ -692,40 +684,49 @@ yyless(int n)
 #endif
 
 /******
+** PrintPrefix -- In case fSrcLoc is 1 and we are about to
+**	print the first column of a line, we want to output the location of
+**	that line in the original LaTeX document it came from.
+******/
+
+void
+PrintPrefix()
+{
+	if (fSrcLoc && fIsColumn0) {
+		printf("%s:%d: ", fFileNames[csb], fFileLines[csb]);
+		fIsColumn0 = 0;
+	}
+}
+
+/******
 ** LineBreak -- choses the proper way to break a line. If '-1' option is
-**      enabled we also want to output some source location information.
+**	enabled we also want to output some source location information.
 ******/
 
 void
 LineBreak()
 {
 	if (fWord) return;
-	if (fSrcLoc && fIsColumn0) {
-		printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]);
-		fIsColumn0 = 0;
-	}
+	PrintPrefix();
 	putchar('\n');
 	fFileLines[csb]++; fIsColumn0=1;
 }
 
 /******
 ** Echo -- If we are at column 0 and have specified '-1'; output 
-**      the source location information.
+**	the source location information.
 ******/
 
 void
 Echo()
 {
-	if (fSrcLoc && fIsColumn0) {
-		printf("%s:%4d: ", fFileNames[csb], fFileLines[csb]);
-		fIsColumn0 = 0;
-	}
+	PrintPrefix();
 	fprintf(yyout, "%s", yytext);
 }
 
 /******
 ** IncrLineNo -- Increase the correct linenumber counter and
-**      reset the the 'fIsColumn0' to true.
+**	reset the the 'fIsColumn0' to true.
 ******/
 
 void
@@ -740,7 +741,7 @@ IncrLineNo()
 
 /******
 ** Ignore -- Since we might need to track source location information we
-**    cannot just ignore text. We must at least increase the linenumber counter.
+**	cannot just ignore text. We must at least increase the linenumber counter.
 ******/
 
 void 
@@ -820,10 +821,10 @@ InputFile(char *sbFile)
             return;
 	} 
 #ifdef FLEX_SCANNER
-        rgsb[csb++]     = YY_CURRENT_BUFFER;
-        fFileLines[csb] = 1;
-        stracpy(&fFileNames[csb], sbFile);
-        yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
+	rgsb[csb++]     = YY_CURRENT_BUFFER;
+	fFileLines[csb] = 1;
+	fFileNames[csb] = strdup(sbFile);
+	yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
 #endif /* FLEX_SCANNER */
 }
 
@@ -848,10 +849,10 @@ IncludeFile(char *sbFile)
             return;
 	}
 #ifdef FLEX_SCANNER
-        rgsb[csb++]     = YY_CURRENT_BUFFER;
-        fFileLines[csb] = 1;
-        stracpy(&fFileNames[csb], sbFile);
-        yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
+	rgsb[csb++]     = YY_CURRENT_BUFFER;
+	fFileLines[csb] = 1;
+	fFileNames[csb] = strdup(sbFile);
+	yy_switch_to_buffer(yy_create_buffer( yyin, YY_BUF_SIZE ) );
 #endif /* FLEX_SCANNER */
 }
 
