@@ -10,6 +10,12 @@ Running tests:
 make test
 ```
 
+It is recommended that you install Valgrind and run tests using it (as it is done in Travis CI):
+
+```
+./test.pl --valgrind
+```
+
 After pushing check cross-platform compilation results on commits list on GitHub or directly on [Travis CI](https://travis-ci.org/pkubowicz/opendetex).
 
 ## Releasing a new version
