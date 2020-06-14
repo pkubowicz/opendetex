@@ -202,3 +202,5 @@ Reduced size of .tar.bz2 package by excluding object file added by mistake.
 Handle forcing placement with ! (#62). Thanks to schrc3b6.
 
 Added option to print source information with -1 (#64). Thanks to Victor Cacciari Miraldo.
+
+(Version 2.8.8) -- UNRELEASED
