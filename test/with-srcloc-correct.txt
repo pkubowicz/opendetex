@@ -1,0 +1,16 @@
+with-srcloc.tex:2: 
+with-srcloc.tex:4: 
+with-srcloc.tex:7: Some text on line 7
+with-srcloc.tex:8: 
+with-srcloc.tex:9: 
+with-srcloc.tex:10: Some figure on line 10
+with-srcloc.tex:12: 
+part:1: Text to include.
+with-srcloc.tex:13: 
+with-srcloc.tex:14: 
+part-2:1: Some larger text to be included.
+part-2:2: 
+part-2:3: This is line 3.
+part-2:4: And this is line 4.
+with-srcloc.tex:15: 
+with-srcloc.tex:16: 
