@@ -19,6 +19,11 @@ It is recommended that you install Valgrind and run tests using it (as it is don
 ./test.pl --valgrind
 ```
 
+Also recommended: check if compilation is not broken on oldest compilers supported by Tex Live (again, if you don't do this, it will be checked on CI):
+```
+make clean all DEFS='-std=iso9899:199409'
+```
+
 After pushing check cross-platform compilation results on commits list on GitHub or directly on [Travis CI](https://travis-ci.org/pkubowicz/opendetex).
 
 ## Releasing a new version
