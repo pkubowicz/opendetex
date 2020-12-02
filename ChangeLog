@@ -210,3 +210,5 @@ Fixed compilation on old compilers supported by TeX Live (#65). Thanks to Akira 
 (Version 2.8.9) -- December, 2020
 
 Include escaped percent sign in output (#70). Thanks to Max Leonhardt.
+
+(Version 2.8.10) -- UNRELEASED
