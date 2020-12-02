@@ -208,3 +208,5 @@ Added option to print source information with -1 (#64). Thanks to Victor Cacciar
 Fixed compilation on old compilers supported by TeX Live (#65). Thanks to Akira Kakuto and Hironobu Yamashita.
 
 (Version 2.8.9) -- UNRELEASED
+
+Include escaped percent sign in output (#70). Thanks to Max Leonhardt.
