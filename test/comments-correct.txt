@@ -1,0 +1,2 @@
+
+This 100% has a percent sign and will be included.
