@@ -4,7 +4,7 @@ To build the program, you need:
 * 'lex' implementation (for example, flex)
 
 Debian/Ubuntu users can install those by executing:
-   sudo apt-get install make gcc flex
+   sudo apt-get install make gcc flex libfl-dev
 
 To compile the program, simply execute
    make
