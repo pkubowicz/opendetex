@@ -48,6 +48,7 @@ Usage:
 ```
 sudo apt-get install make gcc flex
 git clone https://github.com/pkubowicz/opendetex.git
+cd opendetex
 make
 sudo make install
 detex -v
