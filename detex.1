@@ -72,7 +72,7 @@ environments.
 .PP
 The
 .B \-r
-option tries to naively replace $..$, $$..$$, \(..\) and \[..\]
+option tries to naively replace $..$, $$..$$, \\(..\\) and \\[..\\]
 with nouns and verbs (in particular, "noun" and "verbs")
 in a way that keeps sentences readable.
 .PP
@@ -96,7 +96,7 @@ files.  Like \fITeX\fP, it interprets a leading or trailing `:' as the default
 TEXINPUTS.  It does \fInot\fP support the `//' directory expansion magic sequence.
 .PP
 Detex now handles the basic \fITeX\fP ligatures as a special case, replacing the
-ligatures with acceptable charater substitutes.  This eliminates
+ligatures with acceptable character4 substitutes.  This eliminates
 spelling errors introduced by merely removing them.  The ligatures are
 \\aa, \\ae, \\oe, \\ss, \\o, \\l (and their upper-case
 equivalents).  The special "dotless" characters \\i and \\j are also
@@ -120,15 +120,17 @@ exceed the system's limit on the number of simultaneously opened files.
 .I Detex
 ignores unrecognized option characters after printing a warning message.
 .SH AUTHOR
-Originally written by Daniel Trinkle, Computer Science Department, Purdue University
+Originally written by Daniel Trinkle, Computer Science Department,
+Purdue University.
 .PP
 Maintained by Piotr Kubowicz <https://github.com/pkubowicz/opendetex>.
 .SH BUGS
 .I Detex
-is not a complete
+is not a
 .I TeX
-interpreter, so it can be confused by some constructs.
-Most errors result in too much rather than too little output.
+interpreter (it essentially reads the input with a (f)lex program), so
+it is easily confused by some constructs. Most errors result in too much
+rather than too little output.
 .PP
 Running \fILaTeX\fR
 source without a ``\\begin{document}''
