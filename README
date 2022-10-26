@@ -43,3 +43,18 @@ Currently home of OpenDetex is GitHub:
 https://github.com/pkubowicz/opendetex
 You can check for latest version, submit bug reports or patches, or
 ask for becoming team member there.
+
+Usage:
+```
+sudo apt-get install make gcc flex
+git clone https://github.com/pkubowicz/opendetex.git
+cd opendetex
+make
+sudo make install
+detex -v
+```
+The last command should return something like:
+```
+OpenDetex version 2.8.10
+https://github.com/pkubowicz/opendetex
+```
