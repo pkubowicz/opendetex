@@ -1,0 +1,15 @@
+name: Manpage
+on:
+  push:
+    paths:
+      - 'detex.1'
+
+jobs:
+  manpage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup dependencies
+        run: sudo apt install mandoc
+      - run: mandoc -T lint detex.1

@@ -20,7 +20,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup dependencies
         run: sudo apt install flex valgrind libfl-dev
       - run: |
@@ -29,12 +29,3 @@ jobs:
           make
           ./test.pl --valgrind
           make package
-
-  manpage:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup dependencies
-        run: sudo apt install mandoc
-      - run: mandoc -T lint detex.1
