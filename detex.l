@@ -1093,7 +1093,8 @@ UsageExit(void)
 {
 	(void)printf("\n%s [ -clnrstw1 ] [ -e environment-list ] [ filename[.tex] ... ]\n",
 		sbProgName);
-	puts("  -c  echo LaTeX \\cite, \\ref, and \\pageref values\n  \
+	puts("Strip (La)TeX commands from the input.\n\n  \
+-c  echo LaTeX \\cite, \\ref, and \\pageref values\n  \
 -e  <env-list> list of LaTeX environments to ignore\n  \
 -l  force latex mode\n  \
 -n  do not follow \\input, \\include and \\subfile\n  \
@@ -1102,7 +1103,9 @@ UsageExit(void)
 -t  force tex mode\n  \
 -w  word only output\n  \
 -1  outputs the original file name and line number in the beginning of each line\n  \
--v  show program version and exit");
+-v  show program version and exit\n\
+\n\
+opendetex home page: https://github.com/pkubowicz/opendetex");
 	exit(0);
 }
 
