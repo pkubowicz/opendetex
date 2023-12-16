@@ -211,4 +211,6 @@ Fixed compilation on old compilers supported by TeX Live (#65). Thanks to Akira 
 
 Include escaped percent sign in output (#70). Thanks to Max Leonhardt.
 
-(Version 2.8.10) -- UNRELEASED
+(Version 2.8.10) -- December, 2023
+
+Fixes to man page. Thanks to kberry and Hilmar Preusse.
