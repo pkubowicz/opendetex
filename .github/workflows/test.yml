@@ -1,0 +1,40 @@
+name: Test
+on: push
+
+jobs:
+  test:
+
+    # https://github.com/actions/runner-images
+    strategy:
+      matrix:
+        include:
+        - os: ubuntu-latest
+          compiler: gcc
+        - os: ubuntu-latest
+          compiler: clang
+        - os: ubuntu-20.04
+          compiler: gcc
+        - os: ubuntu-20.04
+          compiler: clang
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dependencies
+        run: sudo apt install flex valgrind libfl-dev
+      - run: |
+          export CC=${{matrix.compiler}}
+          $CC --version
+          make
+          ./test.pl --valgrind
+          make package
+
+  manpage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup dependencies
+        run: sudo apt install mandoc
+      - run: mandoc -T lint detex.1
