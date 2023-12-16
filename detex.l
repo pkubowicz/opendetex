@@ -349,16 +349,28 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 							footnoteLevel = currBracesLevel;
 							++currBracesLevel;
 							}
-<Normal>"\\verb" /* ignore \verb<ch>...<ch> */	{   if (fLatex) {
-							char verbchar, c;
-							verbchar = input();
-							while ((c = input()) != verbchar)
-								/*if (c == '\n')
-								NEWLINE;*/
-								putchar(c);
-							}
-							IGNORE;
-						}
+<Normal>"\\verb" /* ignore \verb<ch>...<ch> */ {
+	if (fLatex) {
+		char verbchar, c;
+		verbchar = input();
+		if (verbchar < ' ') {
+			/* would be nice to include input filenames and line numbers */
+			ErrorExit("\\verb not complete before eof");
+		}
+		while ((c = input()) != verbchar && c != '\n' && c != EOF && c != 0) {
+			putchar(c);
+		}
+		if (verbchar == EOF || c == EOF) {
+			ErrorExit("\\verb not complete before eof");
+		}
+		if (c == '\n') {
+			char delim[2];
+			delim[0] = verbchar;
+			delim[1] = 0;
+			Warning("\\verb not terminated before eol, delimiter", delim);
+		}
+	}
+}
 
 <Normal>"\\newcommand"				{ LATEX; KILLARGS(2); }
 <Normal>"\\renewcommand"			{ LATEX; KILLARGS(2); }
