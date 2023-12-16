@@ -1,0 +1,10 @@
+{
+  "Exclude": [
+    "test/",
+    "\\.o/"
+  ],
+  "Disable": {
+    "IndentSize": true,
+    "MaxLineLength": true
+  }
+}
