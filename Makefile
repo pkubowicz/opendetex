@@ -158,3 +158,7 @@ package: clean detex.c
 detex.c: detex.h
 detex.c: detex.l
 
+inpdf:
+	cd test && xelatex -interaction=nonstopmode in.tex || echo there were errors
+	rm -f test/*.toc test/*.log test/*.aux
+	mv test/in.pdf .

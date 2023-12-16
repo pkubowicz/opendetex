@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
 
+use strict;
+
 assert_produces_correct_output('in.tex', 'correct.txt');
 assert_produces_correct_output('in.tex', 'correct.txt', '-l');
 assert_produces_correct_output('noinclude.tex', 'noinclude-correct.txt', '-n');
@@ -12,7 +14,11 @@ assert_produces_correct_output('comments.tex', 'comments-correct.txt');
 run_for_wrong_input("non-existent-file");
 run_for_wrong_input("non-existent-file.tex");
 run_for_wrong_input("non-existent-file.txt");
-run_for_wrong_input("test/unterminated.txt");
+run_for_wrong_input("test/unterminated.tex");
+run_for_wrong_input("test/unterminated-verb-pipe.tex");
+
+run_for_input_with_error("test/unterminated-verb.tex");
+run_for_input_with_error("test/unterminated-verb-eol.tex");
 
 print "Tests ok\n";
 
@@ -46,9 +52,18 @@ sub run_for_wrong_input {
 	execute_cmd("./delatex $input");
 }
 
+sub run_for_input_with_error {
+	my ($input) = @_;
+	print "Checking response for $input...\n";
+	# https://www.perlmonks.org/?node_id=81640
+	my $res = system(get_cmd("./delatex $input")) >> 8;
+	die "exit code $res" if ($res != 1);
+}
+
 sub execute_cmd {
 	my ($cmd) = @_;
-	system(get_cmd($cmd)) == 0 or die;
+	my $res = system(get_cmd($cmd));
+	die "exit code $res" if ($res != 0);
 }
 
 sub get_cmd {

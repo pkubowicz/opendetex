@@ -13,3 +13,6 @@ indent_size = 2
 
 [{Makefile,README,*.pl,*.sh,*.l,*.h}]
 indent_style = tab
+
+[{*.txt,*.tex}]
+insert_final_newline = false
