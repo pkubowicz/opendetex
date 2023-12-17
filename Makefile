@@ -71,7 +71,7 @@ DEFS	=
 #
 #DEFS	+= ${DEFS} -DNO_MALLOC_DECL
 #
-CFLAGS	= -O -DVERSION=\"${VERSION}\" ${DEFS} -Wall
+CFLAGS	+= -O -DVERSION=\"${VERSION}\" ${DEFS} -Wall
 
 # Use your favorite lexical scanner
 #
