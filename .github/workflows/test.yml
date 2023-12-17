@@ -8,24 +8,40 @@ jobs:
     strategy:
       matrix:
         include:
-        - os: ubuntu-latest
-          compiler: gcc
-        - os: ubuntu-latest
-          compiler: clang
-        - os: ubuntu-20.04
-          compiler: gcc
-        - os: ubuntu-20.04
-          compiler: clang
+          - os: ubuntu-latest
+            compiler: gcc
+            valgrind: true
+          - os: ubuntu-latest
+            compiler: clang
+            valgrind: true
+          - os: ubuntu-20.04
+            compiler: gcc
+            valgrind: false
+          - os: ubuntu-20.04
+            compiler: clang
+            valgrind: false
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
       - name: Setup dependencies
-        run: sudo apt install flex valgrind libfl-dev
-      - run: |
+        run: sudo apt install libfl-dev
+      - name: Set compiler
+        run: |
           export CC=${{matrix.compiler}}
           $CC --version
-          make
+      - name: Compile and test with valgrind
+        if: ${{ matrix.valgrind == true }}
+        run: |
+          CFLAGS=-g make
+          sudo apt install valgrind
           ./test.pl --valgrind
-          make package
+      - name: Compile and test without valgrind
+        if: ${{ matrix.valgrind != true }}
+        run: |
+          make
+          ./test.pl
+      - name: Test packaging
+        if: ${{ matrix.valgrind != true }}
+        run: make package
