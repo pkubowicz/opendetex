@@ -215,6 +215,6 @@ Include escaped percent sign in output (#70). Thanks to Max Leonhardt.
 
 Fixes to man page. Thanks to kberry and Hilmar Preusse.
 
-(Version 2.8.11) -- UNRELEASED
+(Version 2.8.11) -- December, 2023
 
 Fixed segmentation fault on unterminated \verb.
