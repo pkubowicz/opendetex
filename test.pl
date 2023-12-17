@@ -17,10 +17,11 @@ run_for_wrong_input("non-existent-file");
 run_for_wrong_input("non-existent-file.tex");
 run_for_wrong_input("non-existent-file.txt");
 run_for_wrong_input("test/unterminated.tex");
-run_for_wrong_input("test/unterminated-verb-pipe.tex");
 
+run_for_input_with_error("test/unterminated-verb-pipe.tex");
 run_for_input_with_error("test/unterminated-verb.tex");
 run_for_input_with_error("test/unterminated-verb-eol.tex");
+run_for_input_with_error("test/unterminated-verb-nofinal.tex");
 
 fuzz();
 
@@ -59,9 +60,9 @@ sub run_for_wrong_input {
 sub run_for_input_with_error {
 	my ($input) = @_;
 	print "Checking response for $input...\n";
+	my $res = system(get_cmd("./delatex $input"));
 	# https://www.perlmonks.org/?node_id=81640
-	my $res = system(get_cmd("./delatex $input")) >> 8;
-	die "exit code $res" if ($res != 1);
+	die "exit code $res (" . ($res >> 8) . ")" if ($res != 1 << 8);
 }
 
 sub fuzz {
@@ -72,9 +73,9 @@ sub fuzz {
 		my $bytes = int(rand($sb->size));
 		printf("Fuzz: bytes %5d/%5d of %s. ", $bytes, $sb->size, $input);
 		system("head -c $bytes $input > /tmp/trunc.tex");
-		my $res = system(get_cmd("../delatex /tmp/trunc.tex > /tmp/trunc.log")) >> 8;
+		my $res = system(get_cmd("../delatex /tmp/trunc.tex > /tmp/trunc.log"));
 		print "Exit code $res\n";
-		if ($res != 0 && $res != 1) {
+		if ($res != 0 && $res != 1 << 8) {
 			die;
 		}
 	}
@@ -89,7 +90,7 @@ sub execute_cmd {
 sub get_cmd {
 	my ($cmd) = @_;
 	if ($ARGV[0] && $ARGV[0] eq '--valgrind') {
-		$cmd = "valgrind --leak-check=yes --leak-check=full --error-exitcode=1 $cmd";
+		$cmd = "valgrind --leak-check=yes --leak-check=full --error-exitcode=15 $cmd";
 	}
 	return $cmd;
 }

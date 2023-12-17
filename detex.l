@@ -360,14 +360,8 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 		while ((c = input()) != verbchar && c != '\n' && c != EOF && c != 0) {
 			putchar(c);
 		}
-		if (verbchar == EOF || c == EOF) {
+		if (c != verbchar) {
 			ErrorExit("\\verb not complete before eof");
-		}
-		if (c == '\n') {
-			char delim[2];
-			delim[0] = verbchar;
-			delim[1] = 0;
-			Warning("\\verb not terminated before eol, delimiter", delim);
 		}
 	}
 }
