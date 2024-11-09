@@ -15,11 +15,11 @@ ChangeLog -	detailed history of changes done in different versions of the progra
 
 COPYRIGHT -	information about program authors and license
 
-INSTALL   -	how to compile the program
+INSTALL -	how to compile the program
 
 Makefile -	makefile for generating detex
 
-detex.1l -	troff source for the detex manual page.
+detex.1 -	troff source for the detex manual page.
 		Assuming you have the -man macros, use "make man-page" to
 		generate it.
 
