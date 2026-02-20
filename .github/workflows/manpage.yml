@@ -1,6 +1,10 @@
 name: Manpage
 on:
   push:
+    branches: [master]
+    paths:
+      - 'detex.1'
+  pull_request:
     paths:
       - 'detex.1'
 
