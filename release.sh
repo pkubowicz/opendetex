@@ -1,21 +1,21 @@
 #!/bin/bash
 
 VERSION=$(head -1 README | perl -ne '/Version (\d+\.\d+\.\d+)/; print $1')
-NEXT_VERSION=$(echo $VERSION | perl -ne '/(\d+\.\d+\.)(\d+)/; print $1,$2+1')
+NEXT_VERSION=$(echo "$VERSION" | perl -ne '/(\d+\.\d+\.)(\d+)/; print $1,$2+1')
 
 echo "Last tag is $(git tag | tail -1)"
 echo "Releasing $VERSION, then bumping to $NEXT_VERSION"
 
-git tag | grep $VERSION
+git tag | grep "$VERSION"
 
-if [[ $? == 0 ]]; then
+if git tag | grep -q "$VERSION"; then
 	echo "Error: this version already exists."
 	exit 2
 fi
 
 set -e
 
-if [[ ! -z $(git status --porcelain --untracked-files=no) ]]; then
+if [[ -n $(git status --porcelain --untracked-files=no) ]]; then
 	echo "Error: make sure you committed everything"
 	exit 3
 fi
@@ -27,7 +27,7 @@ sed -i "s/ UNRELEASED//" README
 
 make clean test package
 git commit -a -S -m "Release $VERSION"
-git tag -s v$VERSION -m $VERSION HEAD
+git tag -s v"$VERSION" -m "$VERSION" HEAD
 
 echo -e "\n(Version $NEXT_VERSION) -- UNRELEASED" >> ChangeLog
 sed -i "s/$VERSION/$NEXT_VERSION-SNAPSHOT/" Makefile
