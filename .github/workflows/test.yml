@@ -17,19 +17,19 @@ jobs:
           - os: ubuntu-latest
             compiler: clang
             valgrind: true
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             compiler: gcc
             valgrind: false
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             compiler: clang
             valgrind: false
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup dependencies
-        run: sudo apt install libfl-dev
+        run: sudo apt update && sudo apt install libfl-dev
       - name: Set compiler
         run: |
           export CC=${{matrix.compiler}}
@@ -37,8 +37,8 @@ jobs:
       - name: Compile and test with valgrind
         if: ${{ matrix.valgrind == true }}
         run: |
-          CFLAGS=-g make
           sudo apt install valgrind
+          CFLAGS=-g make
           ./test.pl --valgrind
       - name: Compile and test without valgrind
         if: ${{ matrix.valgrind != true }}
