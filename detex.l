@@ -409,8 +409,8 @@ VERBSYMBOL	=|\\leq|\\geq|\\in|>|<|\\subseteq|\subseteq|\\subset|\\supset|\\sim|\
 
 <Normal>"\\includeonly"				{BEGIN IncludeOnly; IGNORE;}
 <IncludeOnly>[^{ \t,\n}]+			AddInclude(yytext);
-<IncludeOnly>"}"				{   if (csbIncList == 0)
-							*rgsbIncList[csbIncList++] = '\0';
+<IncludeOnly>"}"				{   if (fFollow && csbIncList == 0)
+							rgsbIncList[csbIncList++] = "";
 							BEGIN Normal;
 						}
 <IncludeOnly>"\n"+				NEWLINE;
@@ -874,7 +874,10 @@ AddInclude(char *sbFile)
 	if (!fFollow)
 		return;
 	if (csbIncList >= MAXINCLIST)
+	{
 		Warning("\\includeonly list is too long, ignoring", sbFile);
+		return;
+	}
 	rgsbIncList[csbIncList] = SafeMalloc(strlen(sbFile) + 1, "malloc for AddInclude failed");
 	(void)strcpy(rgsbIncList[csbIncList++], sbFile);
 }

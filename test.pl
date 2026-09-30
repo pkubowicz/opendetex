@@ -12,6 +12,10 @@ assert_produces_correct_output('words.tex', 'words-correct.txt', '-w -l');
 assert_produces_correct_output('nouns.tex', 'nouns-correct.txt', '-r');
 assert_produces_correct_output('with-srcloc.tex', 'with-srcloc-correct.txt', '-1');
 assert_produces_correct_output('comments.tex', 'comments-correct.txt');
+assert_produces_correct_output('includeonly.tex', 'includeonly-correct.txt');
+assert_produces_correct_output('includeonly.tex', 'includeonly-noinclude-correct.txt', '-n');
+assert_produces_correct_output('includeonly-empty.tex', 'includeonly-empty-correct.txt');
+assert_produces_correct_output('includeonly-empty.tex', 'includeonly-empty-correct.txt', '-n');
 
 run_for_wrong_input("non-existent-file");
 run_for_wrong_input("non-existent-file.tex");
