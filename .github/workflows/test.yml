@@ -1,3 +1,4 @@
+---
 name: Test
 on:
   push:
@@ -27,7 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Setup dependencies
         run: sudo apt update && sudo apt install libfl-dev
       - name: Set compiler
