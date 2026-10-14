@@ -219,7 +219,7 @@ Fixes to man page. Thanks to kberry and Hilmar Preusse.
 
 Fixed segmentation fault on unterminated \verb.
 
-(Version 2.8.12) -- UNRELEASED
+(Version 2.8.12) -- October, 2026
 
 Fixed segmentation fault on \includeonly when -n is given (#91). Thanks to Eduardo Dueñez.
 
