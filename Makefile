@@ -58,9 +58,6 @@ DEFS	=
 #
 #DEFS	+= ${DEFS} -traditional
 #
-# Add -DHAVE_STRING_H for the SysV string manipulation routines
-#
-#DEFS	+= ${DEFS} -DHAVE_STRING_H
 #
 # Add -DMAXPATHLEN=<length> if it is not defined in /usr/include/sys/param.h
 #
