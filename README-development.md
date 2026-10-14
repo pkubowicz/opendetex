@@ -36,3 +36,10 @@ After pushing check cross-platform compilation results on commits list on GitHub
 3. git-push using the instruction printed by the script
 4. On GitHub go to Code → Releases → Draft a new release
   - attach the `.tar.bz2` file
+
+## Staying up to date
+
+Make sure the version matrix .github/workflows/test.yml includes the newest
+Ubuntu version. We cannot rely on 'ubuntu-latest' as it does not follow Ubuntu
+releases fast enough, and as result we had cases where users reported bugs
+about code not compiling – that should have been caught on CI.

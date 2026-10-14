@@ -1,0 +1,5 @@
+# remove this file if actionlint correctly handles current runners
+paths:
+  .github/workflows/*.yml:
+    ignore:
+      - 'label "ubuntu-26.04" is unknown'

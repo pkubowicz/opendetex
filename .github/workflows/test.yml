@@ -12,10 +12,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
+          # don't use ubuntu-latest, it's not 'latest' enough (being 24.04 in Oct 2026)
+          - os: ubuntu-26.04
             compiler: gcc
             valgrind: true
-          - os: ubuntu-latest
+          - os: ubuntu-26.04
             compiler: clang
             valgrind: true
           - os: ubuntu-22.04
