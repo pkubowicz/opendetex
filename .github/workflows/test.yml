@@ -40,8 +40,7 @@ jobs:
         if: ${{ matrix.valgrind == true }}
         run: |
           sudo apt install valgrind
-          CFLAGS=-g make
-          ./test.pl --valgrind
+          ./valgrind.sh
       - name: Compile and test without valgrind
         if: ${{ matrix.valgrind != true }}
         run: |
