@@ -65,12 +65,7 @@
 
 #else /* KPATHSEA */
 
-#ifdef HAVE_STRING_H
 #include <string.h>
-#else
-#include <strings.h>
-#define	strrchr rindex
-#endif
 
 #ifdef HAVE_LIMITS_H
 #include <limits.h>

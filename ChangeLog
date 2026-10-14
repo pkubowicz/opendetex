@@ -220,3 +220,7 @@ Fixes to man page. Thanks to kberry and Hilmar Preusse.
 Fixed segmentation fault on unterminated \verb.
 
 (Version 2.8.12) -- UNRELEASED
+
+Fixed segmentation fault on \includeonly when -n is given (#91). Thanks to Eduardo Dueñez.
+
+Fixed compilation failing with 'implicit declaration of function strrchr' on GCC 15 (#92).
