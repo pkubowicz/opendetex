@@ -1,6 +1,6 @@
 #!/bin/sh
 
 export VALGRIND_OPTS="--show-leak-kinds=all"
-make clean all CFLAGS='-ansi -pedantic -Wall -g -O0'
+CFLAGS='-ansi -pedantic -Wall -g -O0 -D_POSIX_C_SOURCE=200809L' make clean all
 ./test.pl --valgrind
 make clean
